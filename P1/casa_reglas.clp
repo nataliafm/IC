@@ -100,4 +100,5 @@
     ?t <- (totalsegundos (?h)(?m)(?s))
     =>
     (assert (valor_registrado ?t ?tipo ?habitacion ?v))
+    (assert (ultimo_registro ?tipo ?habitacion ?t))
 )
