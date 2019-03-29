@@ -6,7 +6,7 @@
 (deftemplate necesario_pasar (field H1) (field H2) )
 (deftemplate habitacion_interior (field Habitacion) )
 
-(deftemplate Sensor (field Tipo))
+(deftemplate Sensor (field Tipo)(field Nombre) (field H1) (field ON/OFF) (field Lux) )
 
 (deftemplate valor_registrado (field t) (field tipo) (field H1) (field v) )
 (deftemplate ultimo_registro (field tipo) (field H1) (field t) )
@@ -69,3 +69,4 @@
   (Sensor (Tipo "luz") (Nombre P7) (H1 R7) (ON/OFF "off"))
   (Sensor (Tipo "luz") (Nombre P8) (H1 R8) (ON/OFF "off"))
 )
+
