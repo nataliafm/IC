@@ -1,0 +1,25 @@
+1. si hab != vacia ^ --Luz --> Luz_on (--Luz = no hay suficiente luz)
+2. si hab == vacia ^ luz_on --> luz_off
+3. si luz_on ^ ++luz --> luz_off (++Luz = hay demasiada luz)
+
+Grados de luz:
+Salones --> 300 lux
+Dormitorio --> 150 lux
+Cocina, baño, pasillo --> 200 lux
+Despacho --> 500 lux
+
+Demasiada luz = el doble de la necesaria
+
+Estados diferentes para las habitaciones:
+- Activa --> hay Movimiento (el sensor de movimiento está ON)(permanece en activa mientras el sensor siga mandando ON)
+- Inactiva --> no hay movimiento y sabemos que está vacía (si lleva más de 10s que el sensor de mov. manda que está OFF) (permanece en inactiva mientras que siga mandando OFF)
+- Parece inactiva --> no hay movimiento pero no sabemos si está vacía o no (el sensor de movimiento manda que está OFF)(permanece ahí menos de 10 segundos si sigue mandando OFF)
+
+Baño y dormitorio adyacentes
+El dormitorio está activo y el sensor del baño manda ON
+El sensor del baño después manda OFF (parece inactiva) --> si el dormitorio manda ON el baño está inactivo
+Mientras no se detecte movimiento en el dormitorio no se apaga la luz del baño
+
+Pasillo
+Si detecta movimiento se enciende la luz y permanece encendida durante 20 segundos si no detecta movimiento en las habitaciones de alrededor.
+Si no detecta movimiento durante 20 segundos significará que la persona ha salido por la puerta y no hay nadie en casa.
