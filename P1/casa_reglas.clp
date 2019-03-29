@@ -92,13 +92,36 @@
    ?rv)
 
 
-(defrule RegistrarValor
+(defrule RegistrarValorPositivo
     (Sensor (Tipo ?tipo) (Nombre ?) (H1 ?habitacion) (ON/OFF ?v))
+    (test (eq ?v "on"))
     ?h <- (horasistema)
     ?m <- (minutossistema)
     ?s <- (segundossistema)
-    ?t <- (totalsegundos (?h)(?m)(?s))
+    ?t <- (totalsegundos ?h ?m ?s)
     =>
-    (assert (valor_registrado ?t ?tipo ?habitacion ?v))
-    (assert (ultimo_registro ?tipo ?habitacion ?t))
+    (assert (ultima_activacion_movimiento (H1 ?habitacion) (t ?t)))
+    (assert (valor_registrado (t ?t) (tipo ?tipo) (H1 ?habitacion) (v ?v)))
+    (assert (ultimo_registro (tipo ?tipo) (H1 ?habitacion) (t ?t)))
+)
+
+(defrule RegistrarValorNegativo
+    (Sensor (Tipo ?tipo) (Nombre ?) (H1 ?habitacion) (ON/OFF ?v))
+    (test (eq ?v "off"))
+    ?h <- (horasistema)
+    ?m <- (minutossistema)
+    ?s <- (segundossistema)
+    ?t <- (totalsegundos ?h ?m ?s)
+    =>
+    (assert (ultima_desactivacion_movimiento (H1 ?habitacion) (t ?t)))
+    (assert (valor_registrado (t ?t) (tipo ?tipo) (H1 ?habitacion) (v ?v)))
+    (assert (ultimo_registro (tipo ?tipo) (H1 ?habitacion) (t ?t)))
+)
+
+(defrule Informe
+    (informe ?h)
+    =>
+    (do-for-all-facts ((?va valor_registrado))
+    (and (eq ?va:tipo "movimiento") (eq ?va:H1 ?h))
+    (printout t ?va:t " " ?va:v crlf))
 )
