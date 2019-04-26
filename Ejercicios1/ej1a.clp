@@ -9,17 +9,28 @@
   (Eueueu 7)
 )
 
-(deffacts ElFacto
-  (NumeroHechos Eueueu 0)
-)
-
 (defrule contar
   ?a <- (ContarHechos ?X)
-  (exists (NumeroHechos ?X ?))
-  ?b <- (NumeroHechos ?X ?)
   =>
-  (retract ?b)
   (bind ?num (length$ (find-all-facts ((?v ?X)) (neq ?X null)) ))
   (assert (NumeroHechos ?X ?num))
   (retract ?a)
+)
+
+(defrule borrarDuplicados
+  ?a <- (NumeroHechos ?X ?num1)
+  ?b <- (NumeroHechos ?X ?num2)
+  =>
+  (if (= ?num1 ?num2)
+    then
+    (retract ?b)
+    else
+    (bind ?num_hechos (length$ (find-all-facts ((?v ?X)) (neq ?X null)) ))
+    (if (= ?num_hechos ?num1)
+      then
+      (retract ?b)
+      else
+      (retract ?a)
+    )
+  )
 )
